@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>会员层级配置</title>
+    <script type="text/javascript" src="js/jquery-easyui-1.4.3/jquery.min.js"
+        charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery-easyui-1.4.3/jquery.easyui.min.js"
+        charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="js/jquery-easyui-1.4.3/datagrid-filter.js"
+        charset="utf-8"></script>
+    <script type="text/javascript" src="js/myutils.js" charset="utf-8"></script>
+
+    <link rel="stylesheet" href="js/jquery-easyui-1.4.3/themes/default/easyui.css"
+        type="text/css" />
+    <link rel="stylesheet" href="js/jquery-easyui-1.4.3/themes/icon.css"
+        type="text/css" />
+    <style type='text/css'>
+        .button {
+            background-color: #dff4ff;
+            border: 1px solid #c2e1ef;
+            color: #336699;
+            width: 80px;
+            margin: 0 10px;
+        }
+
+        .button:disabled {
+            color: #999;
+            background-color: #ddd;
+            border-color: #ccc;
+        }
+
+        #toolbar1 table tr td {
+            padding-left: 10px;
+        }
+
+        .easyui-dialog {
+            padding: 10px;
+        }
+
+        .easyui-dialog table tr {
+            height: 38px;
+            line-height: 38px;
+        }
+
+        .easyui-dialog table tr:last-child td {
+            text-align: center;
+        }
+
+        
+    </style>
+	<script type="text/javascript" src="js/modules/common.js"
+        charset="utf-8"></script>
+	<script type="text/javascript">
+	 $(document).ready(function(){
+		var pointMaintainMV=formMV($("#pointMaintainForm"),{
+			el:$("#pointMaintainDlg"),
+			data:null,
+			getModel:function(){
+				var model=getViewModel(this.formEl);
+				model.memberId=data;
+				return model;
+			},hide:function(){
+				resetViewModel(this.formEl);
+				this.el.dialog('close');
+			},show:function(data){
+				this.data=data;
+				//打开对话框
+				createDlg(this.el, "会员积分维护", 500, function () {
+					
+				})
+			},cancel:function(){
+				this.hide();
+			},validate(data){
+				return true;
+			},submit:function(){
+				var me=this;
+				var data=me.getModel();
+				if(!me.validate(data)){
+					return;
+				}
+				API.member.memberPointMaintain(data,function(result){
+					if (result.code != "0000") {
+						$.messager.alert("提示", result.message, "error");
+						return;
+					}
+					me.hide();
+				});
+			}
+		});
+		//pointMaintainMV.show("126558");
+		var onLineMV=formMV($("#frm_edit"),{
+			el:$("#onLine_dlg"),
+			show:function(data){
+				//打开对话框
+				createDlg(this.el, "会员积分维护审核", 300, function () {
+					
+				})
+			}
+			});
+			//onLineMV.show();
+			var labelMV=formMV($("#label_edit"),{
+			el:$("#label_dlg"),
+			show:function(data){
+				//打开对话框
+				createDlg(this.el, "标签选择", 700, function () {
+					
+				})
+			}
+			});
+			labelMV.show();
+	 });
+	</script>
+</head>
+<body>
+
+<div id="label_dlg" class="easyui-dialog dlg" align="left" closed="true" >
+	 <form id="label_edit" method="POST">
+	 <table style="width:100%;border:1px;" >
+                <tr>
+                    <td>
+					<label>全部标签</label>
+					<div style="height:304px;width:270px;overflow:auto;border:1px #A9A9A9 solid">
+					<ul id="tt" class="easyui-tree" onlyLeafCheck="true" checkbox="true">
+		<li>
+			<span>Folder</span>
+			<ul>
+				<li>
+					<span>Sub Folder 1</span>
+					<ul>
+						<li><span><a href="#">File 11</a></span></li>
+						<li><span>File 12</span></li>
+						<li><span>File 13</span></li>
+					</ul>
+				</li>
+				<li><span>File 2</span></li>
+				<li><span>File 3</span></li>
+			</ul>
+		</li>
+		<li><span>File21</span></li>
+	</ul>
+	</div>
+					</td>
+					<td>
+						<ul style="list-style-type: none;padding-left: 0;">
+							<li><input type="button" class="button" value=">>"/></li>
+							<li><input type="button" class="button" value="<<"/></li>
+							<li><input type="button" class="button" value="("/></li>
+							<li><input type="button" class="button" value=")"/></li>
+							<li><input type="button" class="button" value="或"/></li>
+							<li><input type="button" class="button" value="且"/></li>
+						</ul>
+					</td>
+					<td>
+					<label>目标标签</label>
+							 <textarea name="smsContent" rows="20" cols="36" ></textarea>
+					</td>
+				</tr>
+				<tr>
+                    <td colspan="3"><input type="button" class="button" value="确定"/></td>
+				</tr>
+				</table>
+	
+	
+	</form>
+</div>
+
+<div style="display:none;">
+	<fieldset style="width:600px;">
+		<legend>客户基本信息</legend>
+		<div  align="center" >
+			<table style="width:100%">
+                <tr>
+                    <td><label>注册日期：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>姓名：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>手机号：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>是否重复手机号：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>性别：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>年龄：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>证件类型：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>证件号：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>证件有效期开始日期：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>证件有效期结束日期：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>风险测评结果：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>风险测评有效期结束日期：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+			</table>
+		</div>
+	</fieldset>
+	<fieldset style="width:600px;">
+		<legend>账号信息</legend>
+		<div  align="center" >
+			<table style="width:100%">
+                <tr>
+                    <td><label>是否开通线上交易：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>开通日期：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>登录账户锁定状态：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>线上交易冻结状态：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>身份认证状态：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>补充说明：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>理财账户：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>开户日期：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+			</table>
+		</div>
+	</fieldset>
+	<fieldset style="width:600px;">
+		<legend>等级与积分</legend>
+		<div  align="center" >
+			<table style="width:100%">
+                <tr>
+                    <td><label>当前会员等级：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>会员等级更新日期：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>当前可用积分：</label></td>
+					<td><span name=""></span></td>
+                    <td><label>下月过期积分：</label></td>
+					<td><span name=""></span></td>
+				</tr>
+				<tr>
+                    <td><label>上月日均资产规模：</label></td>
+					<td><span name=""></span></td>
+                    <td></td>
+					<td></td>
+				</tr>
+			</table>
+		</div>
+	</fieldset>
+</div>
+
+<div id="onLine_dlg" class="easyui-dialog dlg" align="center" closed="true">
+    <form id="frm_edit" method="POST">
+        <table cellspacing="5px" cellpadding="5px">
+            <tr>
+                <td><input type="radio" name="status" value="1" id="checkY"/><label for="checkY">通过</label></td>
+                <td><input type="radio" name="status" value="2" id="checkN"><label for="checkN">拒绝</label></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+					<input type="button" value="取消" class="button"/>
+                    <input type="button" value="确定" class="button" onclick="submitEntry('3')"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="toolbar1" style="display:none;">
+        <form id="queryForm">
+            <table>
+                <tr>
+                    <td><label>客户ID：</label><input type="text" name="memberId" /></td>
+                    <td>
+                        <label>审核状态：</label>
+                        <select name="status">
+                            <option value="">-- 请选择 --</option>
+                            <option value="0">待审核</option>
+                            <option value="1">通过</option>
+                            <option value="2">拒绝</option>
+                        </select>
+                    </td>
+                    <td>
+                        <label >提交日期：</label>
+                        <input  name="submitTimeBegin" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"></input>至
+                        <input  name="submitTimeEnd" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd'})"></input>
+                    </td>
+                    <td>
+                        <input name="action-query" type="button" class="button" value="查      询" />
+                        <input name="action-audit" type="button" class="button" value="审      核" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+<div id="pointMaintainDlg" class="easyui-dialog" align="center" closed="true">
+            <form id="pointMaintainForm">
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td >
+                            <label>调整方向：</label>
+                            <select name="changeDirection">
+                                <option value="">-- 请选择 --</option>
+                                <option value="1">增加</option>
+                                <option value="2">减少</option>
+                            </select>
+                        </td>
+						<td>
+							<label>积分调整值：</label>
+                            <input type="text" name="point"/>
+						</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <label>调整原因：</label>
+                            <textarea name="reason" rows="10" cols="47" ></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+							<input type="button" name="action-cancel"  value="取消" class="button"/>
+                            <input type="button" name="action-submit" value="确定" class="button" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+		<div id="editDlg" class="easyui-dialog dlg" align="center" closed="true">
+    <form id="editForm">
+        <table cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <label>直播名称：</label>
+                    <input type="text" name="name"/>
+                </td>
+                <td rowspan="5">
+                    <table id="params">
+                        <tr>
+                            <td colspan="2">变量替换按钮</td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" class="button" value="客户ID"/></td>
+                            <td>$CustID$</td>
+                        </tr>
+                        <tr>
+                            <td><input type="button" class="button" value="客户姓名"/></td>
+                            <td>$CustName$</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>跳转链接：</label>
+                    <input type="text" name="url"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>开播时间：</label>
+                    <input name="startTime" onclick="WdatePicker({readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"></input>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>直播图片：</label><input type="text"  name="imgUrl" disabled />
+                    <input type="button" class="button" value="上传" name="action-upload"/>
+                    <div id="imgUrlDiv" style="width: 343px; height: 120px;border: 1px solid #aaa;">
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" class="button" value="保存" name="action-save"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
