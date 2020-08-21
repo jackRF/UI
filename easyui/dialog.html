@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/default/easyui.css" type="text/css"/>
+        <link rel="stylesheet" href="../js/jquery-easyui-1.4.3/themes/icon.css" type="text/css"/>
+
+        <script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/jquery-easyui-1.4.3/jquery.easyui.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
+        <script type="text/javascript" src="../js/sms/smsBatchPlan.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <div id="importDlg" class="easyui-dialog dlg" align="center" closed="true">
+            <form id="importForm" method="POST">
+                <table cellspacing="5px" cellpadding="5px">
+                    <tr>
+                        <td>
+                            <input type="file" name="file" class="input-file">
+                            <a href="sms/downloadImportTemplate">导入模板下载</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" name="action-cancel" value="取消" class="button" />
+                            <input type="button" name="action-save" value="确定" class="button" />
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+        <div id="labelDlg" class="easyui-dialog dlg" align="left" closed="true">
+            <form id="labelForm" method="POST">
+                <table>
+                    <tr>
+                        <td>
+                            <label>全部标签</label>
+                            <div style="height:304px;width:270px;overflow:auto;border:1px #A9A9A9 solid">
+                                <ul id="labelTree" class="easyui-tree" onlyLeafCheck="true" checkbox="true">
+                                    <li th:each="labelTreeNode:${labelTreeNodes}">
+                                        <span th:text="${labelTreeNode.text}"></span>
+                                        <ul th:each="childTreeNode:${labelTreeNode.children}">
+                                            <li><span th:text="${childTreeNode.text}"></span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>
+                            <ul id="toolBtns" style="list-style-type: none;padding-left: 0;">
+                                <li><input name="action-operate1" type="button" class="button" value=">>"/></li>
+                                <li><input name="action-operate2" type="button" class="button" value="<<"/></li>
+                                <li><input name="action-operate3" type="button" class="button" value="("/></li>
+                                <li><input name="action-operate4" type="button" class="button" value=")"/></li>
+                                <li><input name="action-operate5" type="button" class="button" value="或"/></li>
+                                <li><input name="action-operate6" type="button" class="button" value="且"/></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <label>目标标签</label>
+                            <div style="height:304px;width:270px;overflow:auto;border:1px #A9A9A9 solid">
+                                <ul id="labelUse" style="list-style-type: none;padding-left: 0;margin: 0;">
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><input name="action-complete" type="button" class="button" value="确定" /></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
