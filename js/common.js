@@ -1,3 +1,13 @@
+function desensitization(value,tailSize){
+    value=value||'';
+    var headSize=value.length-tailSize;
+    var tail=value.substring(headSize);
+    var head='';
+    for(var i=0;i<headSize;i++){
+        head+='*';
+    }
+    return head+tail;
+}
 function urlView(option){
     return function(value,row,index){
         var target='';
