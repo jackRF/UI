@@ -1,3 +1,11 @@
+function ajaxLoading(){ 
+    $("<div class=\"datagrid-mask\"></div>").css({zIndex:100000,display:"block",width:"100%",height:$(window).height()}).appendTo("body"); 
+    $("<div class=\"datagrid-mask-msg\"></div>").html("正在处理，请稍候。。。").appendTo("body").css({zIndex:100001,display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+ } 
+ function ajaxLoadEnd(){ 
+     $(".datagrid-mask").remove(); 
+     $(".datagrid-mask-msg").remove();             
+}
 function desensitization(value,tailSize){
     value=value||'';
     var headSize=value.length-tailSize;
