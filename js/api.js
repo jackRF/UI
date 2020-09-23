@@ -41,7 +41,7 @@
             url: uri,
             data: formData,
             cache: false,
-            async: false,
+            async: true,
             type: "POST",
             dataType: 'json',
             processData: false,
